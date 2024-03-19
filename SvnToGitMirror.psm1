@@ -42,7 +42,7 @@ function New-SvnToGitMirror {
         $commandArgs = "-Command . '$fetchCommand' -Path '$mirrorWorkingDirectory'"
 
         $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument $commandArgs
-        $trigger = New-ScheduledTaskTrigger -AtLogon
+        $trigger = New-ScheduledTaskTrigger -AtStartup
         $settings = New-ScheduledTaskSettingsSet
 
         $task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings
