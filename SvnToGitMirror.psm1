@@ -39,14 +39,15 @@ function New-SvnToGitMirror {
         git push --mirror
 
         $fetchCommand = (Get-Command $PSScriptRoot\Fetch-SvnToGitMirror.ps1).Source
-        $commandArgs = "-Command . '$fetchCommand' -Path '$mirrorWorkingDirectory'"
+        $sid = (get-localuser -Name $env:USERNAME).SID.Value
+        $config = Get-Content "$PSScriptRoot\TaskConfig.xml"
+        $config = $config -replace "{{sid}}", $sid
+        $config = $config -replace "{{scriptpath}}", $fetchCommand
+        $config = $config -replace "{{mirrorpath}}", $mirrorWorkingDirectory
+        $configPath = "$env:TEMP\SvnToGitMirror-TaskConfig.xml"
+        $config | Set-Content -Path $configPath
 
-        $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument $commandArgs
-        $trigger = New-ScheduledTaskTrigger -AtStartup
-        $settings = New-ScheduledTaskSettingsSet
-
-        $task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings
-        $task | Register-ScheduledTask -TaskName $Name -TaskPath "SvnToGitMirror" -Force
+        schtasks.exe /Create /TN "SvnToGitMirror\$Name" /XML $configPath /F
     }
 
     end {
