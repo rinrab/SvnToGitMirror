@@ -48,6 +48,18 @@ function New-SvnToGitMirror {
         $config | Set-Content -Path $configPath
 
         schtasks.exe /Create /TN "SvnToGitMirror\$Name" /XML $configPath /F
+
+        $scheduler = New-Object -ComObject "Schedule.Service"
+        $scheduler.Connect()
+        $folder = $scheduler.GetFolder("\").GetFolder("SvnToGitMirror")
+        $TaskX = $folder.GetTask($Name)
+        $acl = $TaskX.GetSecurityDescriptor(0xF)
+
+        $acl = $acl + '(A;;GRGX;;;AU)'
+        $TaskX.SetSecurityDescriptor($acl, 0)
+
+        Write-Host "Please insert the following line to your post commit hook:"
+        Write-Host "schtasks.exe /RUN /TN SvnToGitMirror\$Name"
     }
 
     end {
