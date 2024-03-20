@@ -34,7 +34,6 @@ function New-SvnToGitMirror {
             git svn clone -s $SvnRepositoryUrl $mirrorWorkingDirectory
         }
 
-        git remote remove origin
         git remote add origin $GitRepositoryUrl
 
         & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory
