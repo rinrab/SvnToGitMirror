@@ -34,9 +34,7 @@ function New-SvnToGitMirror {
             git svn clone -s $SvnRepositoryUrl $mirrorWorkingDirectory
         }
 
-        git remote add origin $GitRepositoryUrl
-
-        & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory
+        & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory -GitRepositoryUrl $GitRepositoryUrl
 
         $fetchCommand = (Get-Command $PSScriptRoot\Fetch-SvnToGitMirror.ps1).Source
         $sid = (get-localuser -Name $env:USERNAME).SID.Value
@@ -44,6 +42,7 @@ function New-SvnToGitMirror {
         $config = $config -replace "{{sid}}", $sid
         $config = $config -replace "{{scriptpath}}", $fetchCommand
         $config = $config -replace "{{mirrorpath}}", $mirrorWorkingDirectory
+        $config = $config -replace "{{mirrorurl}}", $GitRepositoryUrl
         $configPath = "$env:TEMP\SvnToGitMirror-TaskConfig.xml"
         $config | Set-Content -Path $configPath
 

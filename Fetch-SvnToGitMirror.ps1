@@ -1,7 +1,11 @@
 param (
-    $Path
+    $Path,
+    $GitRepositoryUrl
 )
 
 Set-Location $Path
+
 git svn fetch
-git push origin --mirror --force
+
+git checkout origin/trunk
+git push $GitRepositoryUrl origin/trunk --force
