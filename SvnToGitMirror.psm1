@@ -36,7 +36,7 @@ function New-SvnToGitMirror {
         git remote remove origin
         git remote add origin $GitRepositoryUrl
 
-        git push --mirror
+        & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory
 
         $fetchCommand = (Get-Command $PSScriptRoot\Fetch-SvnToGitMirror.ps1).Source
         $sid = (get-localuser -Name $env:USERNAME).SID.Value
