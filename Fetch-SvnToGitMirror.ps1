@@ -9,7 +9,7 @@ git svn fetch
 git svn rebase
 git fetch --tags $GitRepositoryUrl
 
-git branch -f origin/trunk trunk
+git branch -f trunk origin/trunk
 git push --tags $GitRepositoryUrl trunk
 
 $branches = $(git branch -r --list 'origin/*').Trim()
