@@ -30,6 +30,7 @@ function New-SvnToGitMirror {
         }
         else {
             mkdir $mirrorWorkingDirectory
+            Set-Location $mirrorWorkingDirectory
             git svn clone -s $SvnRepositoryUrl $mirrorWorkingDirectory
         }
 
