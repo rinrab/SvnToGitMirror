@@ -44,6 +44,7 @@ schtasks.exe /RUN /TN SvnToGitMirror\my_mirror
 After initializing the mirror, create a [post-commit hook](https://svnbook.red-bean.com/en/1.7/svn.ref.reposhooks.post-commit.html) in your repository and insert there the following line:
 
 ```powershell
+# You may copy/paste this from output of New-SvnToGitMirror function.
 schtasks.exe /RUN /TN SvnToGitMirror\my_mirror
 ```
 
