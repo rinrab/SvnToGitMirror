@@ -4,4 +4,4 @@ param (
 
 Set-Location $Path
 git svn fetch
-git push --mirror
+git push origin --mirror
