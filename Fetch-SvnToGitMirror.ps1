@@ -5,8 +5,11 @@ param (
 
 Set-Location $Path
 
-"" | & git svn fetch
-"" | & git svn rebase
+# TODO
+$password = ""
+
+$password | & git svn fetch
+$password | & git svn rebase
 
 git branch -f trunk origin/trunk
 git push --tags $GitRepositoryUrl trunk --force
