@@ -58,7 +58,7 @@ function New-SvnToGitMirror {
         $acl = $acl + '(A;;GRGX;;;AU)'
         $TaskX.SetSecurityDescriptor($acl, 0)
 
-        Write-Host "Please insert the following line to your post commit hook:"
+        Write-Host "Please insert the following command to your post commit hook:"
         Write-Host "schtasks.exe /RUN /TN SvnToGitMirror\$Name"
     }
 
