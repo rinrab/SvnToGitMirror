@@ -3,8 +3,6 @@ param (
     $GitRepositoryUrl
 )
 
-Start-Transcript -path "C:\Users\Administrator\Documents\log.txt" -append
-
 Set-Location $Path
 
 "" | & git svn fetch
@@ -30,5 +28,3 @@ foreach ($svnBranch in $branches) {
 }
 
 git push --tags $GitRepositoryUrl
-
-Stop-Transcript
