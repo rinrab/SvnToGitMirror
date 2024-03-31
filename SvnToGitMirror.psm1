@@ -11,7 +11,11 @@ function New-SvnToGitMirror {
 
         [Parameter(Mandatory)]
         [Uri]
-        $GitRepositoryUrl
+        $GitRepositoryUrl,
+
+        [Parameter()]
+        [int]
+        $StartRevision
     )
 
     begin {
@@ -31,7 +35,7 @@ function New-SvnToGitMirror {
         else {
             mkdir $mirrorWorkingDirectory
             Set-Location $mirrorWorkingDirectory
-            git svn clone -s $SvnRepositoryUrl $mirrorWorkingDirectory --revision 385
+            git svn clone -s $SvnRepositoryUrl $mirrorWorkingDirectory --revision $StartRevision
         }
 
         & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory -GitRepositoryUrl $GitRepositoryUrl
