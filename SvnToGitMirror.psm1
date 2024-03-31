@@ -54,6 +54,7 @@ function New-SvnToGitMirror {
         $TaskX = $folder.GetTask($Name)
         $acl = $TaskX.GetSecurityDescriptor(0xF)
 
+        # Everyone
         $acl = $acl + '(A;;GRGX;;;AU)'
         $TaskX.SetSecurityDescriptor($acl, 0)
 
