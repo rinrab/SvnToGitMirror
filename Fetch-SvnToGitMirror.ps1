@@ -1,6 +1,7 @@
 param (
     $Path,
-    $GitRepositoryUrl
+    $GitRepositoryUrl,
+    $Revision
 )
 
 Set-Location $Path
@@ -8,6 +9,7 @@ Set-Location $Path
 # TODO
 $password = ""
 
+$password | & git svn fetch --revision $Revision
 $password | & git svn fetch
 $password | & git svn rebase
 
