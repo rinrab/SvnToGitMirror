@@ -15,7 +15,11 @@ function New-SvnToGitMirror {
 
         [Parameter()]
         [int]
-        $StartRevision
+        $StartRevision,
+
+        [Parameter()]
+        [string]
+        $AuthorsFilePath
     )
 
     begin {
@@ -23,6 +27,10 @@ function New-SvnToGitMirror {
     }
 
     process {
+        if ($AuthorsFilePath) {
+            $ResolvedAuthorsFile = Resolve-Path $AuthorsFilePath
+        }
+
         $documentsPath = [Environment]::GetFolderPath("MyDocuments")
         $workingDirectoryBase = "$documentsPath\mirrors"
         $mirrorWorkingDirectory = "$workingDirectoryBase\$Name"
@@ -34,6 +42,7 @@ function New-SvnToGitMirror {
             mkdir $mirrorWorkingDirectory
             Set-Location $mirrorWorkingDirectory
             git svn init -s $SvnRepositoryUrl $mirrorWorkingDirectory
+            git config svn.authorsfile $ResolvedAuthorsFile
             $password | & git svn fetch --revision $StartRevision
         }
 
