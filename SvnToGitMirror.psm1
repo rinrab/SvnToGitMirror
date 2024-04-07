@@ -27,13 +27,17 @@ function New-SvnToGitMirror {
         $workingDirectoryBase = "$documentsPath\mirrors"
         $mirrorWorkingDirectory = "$workingDirectoryBase\$Name"
 
+        # TODO
+        $password = ""
+
         if (-not (Test-Path $mirrorWorkingDirectory)) {
             mkdir $mirrorWorkingDirectory
             Set-Location $mirrorWorkingDirectory
             git svn init -s $SvnRepositoryUrl $mirrorWorkingDirectory
+            $password | & git svn fetch --revision $StartRevision
         }
 
-        & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory -GitRepositoryUrl $GitRepositoryUrl -Revision $StartRevision
+        & $PSScriptRoot\Fetch-SvnToGitMirror -Path $mirrorWorkingDirectory -GitRepositoryUrl $GitRepositoryUrl
 
         $fetchCommand = (Get-Command $PSScriptRoot\Fetch-SvnToGitMirror.ps1).Source
         $sid = (get-localuser -Name $env:USERNAME).SID.Value
